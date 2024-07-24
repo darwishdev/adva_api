@@ -1,0 +1,91 @@
+syntax = "proto3";
+
+package bznspro.v1;
+
+import "buf/validate/validate.proto";
+import "bznspro/v1/client_definitions.proto";
+
+message District {
+  int32 district_id = 1;
+  string district_name = 2;
+  string district_code = 3;
+  int32 city_id = 4;
+  string created_at = 5;
+  string deleted_at = 6;
+}
+
+message DistrictsListRequest {}
+message DistrictsListRow {
+  int32 district_id = 1;
+  string district_name = 2;
+  string district_code = 3;
+  int32 city_id = 4;
+  string city_name = 5;
+  string city_code = 6;
+  string created_at = 7;
+  int32 neighbourhoods_count = 8;
+  string deleted_at = 9;
+}
+message DistrictsListResponse {
+  ListDataOptions options = 1;
+  repeated DistrictsListRow records = 2;
+  repeated DistrictsListRow deleted_records = 3;
+}
+message DistrictDeleteRestoreRequest {
+  repeated int32 district_ids = 1;
+}
+message DistrictDeleteRestoreResponse {}
+
+message DistrictCreateRequest {
+  string district_name = 1 [(buf.validate.field).cel = {
+    message: "district_name_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string district_code = 2 [(buf.validate.field).cel = {
+    message: "district_code_min_1_max_200",
+    expression: "uint(this.size()) > 1 && uint(this.size()) < 200"
+  }];
+  int32 city_id = 3 [(buf.validate.field).cel = {
+    message: "city_id_min_1",
+    expression: "this > 0"
+  }];
+}
+message DistrictCreateResponse {
+  District district = 1 [(buf.validate.field).cel = {
+    message: "district_id_min_1",
+    expression: "this > 0"
+  }];
+}
+
+message DistrictFindForUpdateRequest {
+  int32 district_id = 1;
+}
+
+message DistrictUpdateRequest {
+  int32 district_id = 1 [(buf.validate.field).cel = {
+    message: "district_id_min_1",
+    expression: "this > 0"
+  }];
+  string district_name = 2 [(buf.validate.field).cel = {
+    message: "district_name_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string district_code = 3 [(buf.validate.field).cel = {
+    message: "district_code_min_1_max_200",
+    expression: "uint(this.size()) > 1 && uint(this.size()) < 200"
+  }];
+  int32 city_id = 4 [(buf.validate.field).cel = {
+    message: "city_id_min_1",
+    expression: "this > 0"
+  }];
+}
+message DistrictUpdateResponse {
+  District district = 1;
+}
+
+message DistrictsInputListRequest {
+  int32 city_id = 1;
+}
+message DistrictsInputListResponse {
+  repeated SelectInputOption options = 1;
+}

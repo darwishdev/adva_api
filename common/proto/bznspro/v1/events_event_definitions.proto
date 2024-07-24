@@ -1,0 +1,170 @@
+syntax = "proto3";
+
+package bznspro.v1;
+
+import "buf/validate/validate.proto";
+import "bznspro/v1/client_definitions.proto";
+
+// Request messages
+
+message EventPlanRow {
+  string title = 1;
+  string breif = 2;
+}
+message EventCreateRequest {
+  string event_name = 1 [(buf.validate.field).cel = {
+    message: "event_name_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string event_location = 2 [(buf.validate.field).cel = {
+    message: "event_location_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string event_location_url = 3;
+  string constructor_name = 4 [(buf.validate.field).cel = {
+    message: "constructor_name_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string constructor_title = 5 [(buf.validate.field).cel = {
+    message: "constructor_title_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string constructor_image = 6 [(buf.validate.field).cel = {
+    message: "constructor_image_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  repeated EventPlanRow event_plan = 7;
+  repeated string event_goals = 8;
+  string event_breif = 9;
+  string event_description = 10;
+  string event_video = 11;
+  string event_date = 12;
+  string event_start_time = 13;
+  repeated string tags = 21;
+
+  string event_end_time = 14;
+  int32 event_hours = 15;
+  float price = 16 [(buf.validate.field).cel = {
+    message: "price_required",
+    expression: "this > 0"
+  }];
+  float discount = 17;
+  float shab_discount = 29;
+
+  int32 category_id = 18 [(buf.validate.field).cel = {
+    message: "category_id_required",
+    expression: "this > 0"
+  }];
+  string event_image = 19;
+}
+
+message EventUpdateRequest {
+  int32 event_id = 1;
+  string event_name = 2 [(buf.validate.field).cel = {
+    message: "event_name_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string event_location = 3 [(buf.validate.field).cel = {
+    message: "event_location_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string event_location_url = 4 [(buf.validate.field).cel = {
+    message: "event_location_url_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string constructor_name = 5 [(buf.validate.field).cel = {
+    message: "constructor_name_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string constructor_title = 6 [(buf.validate.field).cel = {
+    message: "constructor_title_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string constructor_image = 7 [(buf.validate.field).cel = {
+    message: "constructor_image_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  repeated EventPlanRow event_plan = 8;
+  repeated string event_goals = 9;
+  string event_breif = 10;
+  string event_description = 11;
+  string event_video = 12;
+  string event_date = 13;
+  string event_start_time = 14;
+  repeated string tags = 21;
+  string event_end_time = 15;
+  int32 event_hours = 16;
+  int32 category_id = 17;
+  string event_image = 18;
+  float price = 19 [(buf.validate.field).cel = {
+    message: "price_required",
+    expression: "this > 0"
+  }];
+  float discount = 20;
+  float shab_discount = 29;
+}
+
+message EventDeleteRestoreRequest {
+  repeated int32 event_ids = 1;
+}
+
+message EventFindRequest {
+  int32 event_id = 1;
+}
+
+message EventsListRequest {}
+
+message EventsInputListRequest {}
+
+// Response messages
+
+message EventsListRow {
+  int32 event_id = 1;
+  string event_name = 2;
+  string event_location = 3;
+  string event_location_url = 4;
+  string constructor_name = 5;
+  repeated string tags = 25;
+  string constructor_title = 6;
+  string constructor_image = 7;
+  repeated EventPlanRow event_plan = 8;
+  repeated string event_goals = 9;
+  string category_name = 10;
+  string event_breif = 11;
+  string event_description = 12;
+  string event_video = 13;
+  string event_date = 14;
+  string event_start_time = 15;
+  string event_end_time = 16;
+  int32 event_hours = 17;
+  int32 category_id = 18;
+  string event_image = 19;
+  string created_at = 20;
+  string updated_at = 21;
+  string deleted_at = 22;
+  float price = 23;
+  float discount = 24;
+  float shab_discount = 29;
+  float final_price = 30;
+  float discount_amount = 31;
+  float shab_discount_final_price = 32;
+  float shab_discount_amount = 33;
+}
+
+message EventsListResponse {
+  ListDataOptions options = 1;
+  repeated EventsListRow records = 2;
+  repeated EventsListRow deleted_records = 3;
+}
+
+message EventsInputListResponse {
+  repeated SelectInputOption options = 1;
+}
+message EventCreateResponse {}
+message EventUpdateResponse {}
+
+message EventDeleteRestoreResponse {}
+
+message EventFindForUpdateRequest {
+  int32 event_id = 1;
+}

@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+package bznspro.v1;
+
+import "buf/validate/validate.proto";
+import "bznspro/v1/client_definitions.proto";
+
+// Request messages
+
+message EventRequestCreateRequest {
+  int32 event_id = 1;
+  string user_name = 2 [(buf.validate.field).cel = {
+    message: "event_name_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string user_email = 3 [(buf.validate.field).cel = {
+    message: "event_location_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string user_phone = 4 [(buf.validate.field).cel = {
+    message: "event_location_url_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string city = 5;
+  float price = 6 [(buf.validate.field).cel = {
+    message: "price_required",
+    expression: " this  > 0"
+  }];
+  float discount = 7;
+  bool is_shab = 8;
+}
+message EventRequestUpdateRequest {
+  int32 event_request_id = 1 [(buf.validate.field).cel = {
+    message: "event_request_id_required",
+    expression: " this  > 0"
+  }];
+  int32 request_status_id = 2 [(buf.validate.field).cel = {
+    message: "request_status_id_required",
+    expression: " this  > 0"
+  }];
+}
+
+message EventRequestDeleteRestoreRequest {
+  repeated int32 event_request_ids = 1;
+}
+
+message EventRequestFindRequest {
+  int32 event_request_id = 1;
+}
+
+message EventRequestsListRequest {}
+
+// Response messages
+
+message EventRequestsListRow {
+  int32 event_request_id = 1;
+  int32 event_id = 2;
+  string user_name = 3;
+  string user_email = 4;
+  string user_phone = 5;
+  string event_name = 6;
+  string event_image = 7;
+  string constructor_name = 8;
+  int32 category_id = 9;
+  string category_name = 10;
+  int32 request_status_id = 11;
+  string request_status = 12;
+  float price = 13;
+  float discount = 14;
+  float discount_amount = 19;
+  float final_price = 20;
+  string created_at = 15;
+  string updated_at = 16;
+  string deleted_at = 17;
+  bool is_shab = 18;
+}
+
+message EventRequestsListResponse {
+  ListDataOptions options = 1;
+  repeated EventRequestsListRow records = 2;
+  repeated EventRequestsListRow deleted_records = 3;
+}
+
+message EventRequestsInputListResponse {
+  repeated SelectInputOption options = 1;
+}
+message EventRequestCreateResponse {}
+message EventRequestUpdateResponse {}
+
+message EventRequestDeleteRestoreResponse {}

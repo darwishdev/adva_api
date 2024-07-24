@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package bznspro.v1;
+
+import "buf/validate/validate.proto";
+import "bznspro/v1/client_definitions.proto";
+
+message Category {
+  int32 category_id = 1;
+  string category_name = 2;
+  int32 category_type_id = 3;
+  string created_at = 4;
+  string updated_at = 5;
+  string deleted_at = 6;
+}
+
+message CategoriesListRequest {
+  int32 category_type_id = 1;
+}
+message CategoriesListRow {
+  int32 category_id = 1;
+  string category_name = 2;
+  string category_type = 3;
+  string created_at = 5;
+  string updated_at = 6;
+  string deleted_at = 7;
+}
+message CategoriesListResponse {
+  ListDataOptions options = 1;
+  repeated CategoriesListRow records = 2;
+  repeated CategoriesListRow deleted_records = 3;
+}
+message CategoryDeleteRestoreRequest {
+  repeated int32 category_ids = 1 [(buf.validate.field).cel = {
+    message: "category_id_min_1",
+    expression: "this > 0"
+  }];
+}
+message CategoryDeleteRestoreResponse {}
+
+message CategoryCreateRequest {
+  string category_name = 1 [(buf.validate.field).cel = {
+    message: "category_name_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  int32 category_type_id = 2 [(buf.validate.field).cel = {
+    message: "category_type_id_min_1",
+    expression: "this > 0"
+  }];
+}
+message CategoryCreateResponse {
+  Category category = 1;
+}
+
+message CategoryFindForUpdateRequest {
+  int32 category_id = 1;
+}
+
+message CategoryUpdateRequest {
+  int32 category_id = 1 [(buf.validate.field).cel = {
+    message: "category_id_min_1",
+    expression: "this > 0"
+  }];
+  string category_name = 2 [(buf.validate.field).cel = {
+    message: "category_name_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  int32 category_type_id = 3 [(buf.validate.field).cel = {
+    message: "category_type_id_min_1",
+    expression: "this > 0"
+  }];
+}
+message CategoryUpdateResponse {
+  Category category = 1;
+}
+
+message CategoriesInputListRequest {
+  int32 category_type_id = 1;
+}
+message CategoriesInputListResponse {
+  repeated SelectInputOption options = 1;
+}
+
+message CategoryFindRequest {
+  int32 category_id = 1;
+}

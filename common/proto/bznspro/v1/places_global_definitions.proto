@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package bznspro.v1;
+
+message NeighbourhoodNested {
+  int32 neighbourhood_id = 1;
+  string neighbourhood_code = 2;
+  string neighbourhood_name = 3;
+}
+
+message DistrictNested {
+  int32 district_id = 1;
+  string district_code = 2;
+  string district_name = 3;
+  repeated NeighbourhoodNested neighbourhoods = 4;
+}
+
+message Place {
+  int32 city_id = 1;
+  string city_name = 2;
+  string city_code = 3;
+  repeated DistrictNested districts = 4;
+}
+
+message PlacesInput {
+  int32 value = 1;
+  string label = 2;
+  repeated PlacesInput children = 3;
+}
+
+message PlacesListRequest {}
+
+message PlacesListResponse {
+  repeated Place places = 1;
+}
+
+message PlacesInputListRequest {}
+
+message PlacesInputListResponse {
+  repeated PlacesInput options = 1;
+}

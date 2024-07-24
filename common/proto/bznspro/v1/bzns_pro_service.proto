@@ -1,0 +1,127 @@
+syntax = "proto3";
+
+package bznspro.v1;
+
+import "bznspro/v1/accounts_role_definitions.proto";
+import "bznspro/v1/accounts_user_definitions.proto";
+import "bznspro/v1/blog_blog_definitions.proto";
+import "bznspro/v1/events_event_definitions.proto";
+import "bznspro/v1/events_request_definitions.proto";
+import "bznspro/v1/places_city_definitions.proto";
+import "bznspro/v1/places_district_definitions.proto";
+import "bznspro/v1/places_global_definitions.proto";
+import "bznspro/v1/places_neighbourhood_definitions.proto";
+import "bznspro/v1/public_categories_definitions.proto";
+import "bznspro/v1/public_client_definitions.proto";
+import "bznspro/v1/public_programs_definitions.proto";
+import "bznspro/v1/public_projects_definitions.proto";
+import "bznspro/v1/public_services_definitions.proto";
+import "bznspro/v1/public_setting_definitions.proto";
+import "bznspro/v1/public_team_members_definitions.proto";
+import "bznspro/v1/public_testemonials_definitions.proto";
+
+service BznsProService {
+  //public
+  //settings
+  rpc SettingsUpdate(SettingsUpdateRequest) returns (SettingsUpdateResponse) {}
+  rpc SettingsFindForUpdate(SettingsFindForUpdateRequest) returns (SettingsFindForUpdateResponse) {}
+
+  // roles
+  rpc PermissionsList(PermissionsListRequest) returns (PermissionsListResponse) {}
+  rpc RolesList(RolesListRequest) returns (RolesListResponse) {}
+
+  rpc RoleCreate(RoleCreateRequest) returns (RoleCreateResponse) {}
+  rpc RoleUpdate(RoleUpdateRequest) returns (RoleUpdateResponse) {}
+  rpc RoleFindForUpdate(RoleFindForUpdateRequest) returns (RoleUpdateRequest) {}
+  rpc RoleDeleteRestore(RoleDeleteRestoreRequest) returns (RoleDeleteRestoreResponse) {}
+  rpc RolesInputList(RolesInputListRequest) returns (RolesInputListResponse) {}
+  //events
+  rpc EventCreate(EventCreateRequest) returns (EventCreateResponse) {}
+  rpc EventUpdate(EventUpdateRequest) returns (EventUpdateResponse) {}
+  rpc EventDeleteRestore(EventDeleteRestoreRequest) returns (EventDeleteRestoreResponse) {}
+  rpc EventsInputList(EventsInputListRequest) returns (EventsInputListResponse) {}
+  rpc EventFindForUpdate(EventFindForUpdateRequest) returns (EventUpdateRequest) {}
+
+  rpc EventsList(EventsListRequest) returns (EventsListResponse) {}
+
+  rpc EventRequestCreate(EventRequestCreateRequest) returns (EventRequestCreateResponse) {}
+  rpc EventRequestUpdate(EventRequestUpdateRequest) returns (EventRequestUpdateResponse) {}
+  rpc EventRequestDeleteRestore(EventRequestDeleteRestoreRequest) returns (EventRequestDeleteRestoreResponse) {}
+  rpc EventRequestsList(EventRequestsListRequest) returns (EventRequestsListResponse) {}
+
+  rpc BlogCreate(BlogCreateRequest) returns (BlogCreateResponse) {}
+  rpc BlogUpdate(BlogUpdateRequest) returns (BlogUpdateResponse) {}
+  rpc BlogDeleteRestore(BlogDeleteRestoreRequest) returns (BlogDeleteRestoreResponse) {}
+  rpc BlogsInputList(BlogsInputListRequest) returns (BlogsInputListResponse) {}
+  rpc BlogFindForUpdate(BlogFindForUpdateRequest) returns (BlogUpdateRequest) {}
+
+  rpc BlogsList(BlogsListRequest) returns (BlogsListResponse) {}
+  // users
+  rpc UserLogin(UserLoginRequest) returns (UserLoginResponse) {}
+  rpc UserAuthorize(UserAuthorizeRequest) returns (UserLoginResponse) {}
+  rpc UserResetPassword(UserResetPasswordRequest) returns (UserResetPasswordResponse) {}
+  rpc UsersList(UsersListRequest) returns (UsersListResponse) {}
+  rpc UserDeleteRestore(UserDeleteRestoreRequest) returns (UserDeleteRestoreResponse) {}
+  rpc UserCreate(UserCreateRequest) returns (UserCreateResponse) {}
+  rpc UserFindForUpdate(UserFindForUpdateRequest) returns (UserUpdateRequest) {}
+  rpc UserUpdate(UserUpdateRequest) returns (UserUpdateResponse) {}
+  // cities
+  rpc CitiesList(CitiesListRequest) returns (CitiesListResponse) {}
+  rpc CitiesInputList(CitiesInputListRequest) returns (CitiesInputListResponse) {}
+  rpc CityCreate(CityCreateRequest) returns (CityCreateResponse) {}
+  rpc CityFindForUpdate(CityFindForUpdateRequest) returns (CityUpdateRequest) {}
+  rpc CityUpdate(CityUpdateRequest) returns (CityUpdateResponse) {}
+  rpc CityDeleteRestore(CityDeleteRestoreRequest) returns (CityDeleteRestoreResponse) {}
+  // districts
+  rpc DistrictsList(DistrictsListRequest) returns (DistrictsListResponse) {}
+  rpc DistrictsInputList(DistrictsInputListRequest) returns (DistrictsInputListResponse) {}
+  rpc DistrictCreate(DistrictCreateRequest) returns (DistrictCreateResponse) {}
+  rpc DistrictFindForUpdate(DistrictFindForUpdateRequest) returns (DistrictUpdateRequest) {}
+  rpc DistrictUpdate(DistrictUpdateRequest) returns (DistrictUpdateResponse) {}
+  rpc DistrictDeleteRestore(DistrictDeleteRestoreRequest) returns (DistrictDeleteRestoreResponse) {}
+  // districts
+  rpc NeighbourhoodsList(NeighbourhoodsListRequest) returns (NeighbourhoodsListResponse) {}
+  rpc NeighbourhoodsInputList(NeighbourhoodsInputListRequest) returns (NeighbourhoodsInputListResponse) {}
+  rpc NeighbourhoodCreate(NeighbourhoodCreateRequest) returns (NeighbourhoodCreateResponse) {}
+  rpc NeighbourhoodFindForUpdate(NeighbourhoodFindForUpdateRequest) returns (NeighbourhoodUpdateRequest) {}
+  rpc NeighbourhoodUpdate(NeighbourhoodUpdateRequest) returns (NeighbourhoodUpdateResponse) {}
+  rpc NeighbourhoodDeleteRestore(NeighbourhoodDeleteRestoreRequest) returns (NeighbourhoodDeleteRestoreResponse) {}
+  // categories
+  rpc CategoriesList(CategoriesListRequest) returns (CategoriesListResponse) {}
+  rpc CategoriesInputList(CategoriesInputListRequest) returns (CategoriesInputListResponse) {}
+  rpc CategoryCreate(CategoryCreateRequest) returns (CategoryCreateResponse) {}
+  rpc CategoryFindForUpdate(CategoryFindForUpdateRequest) returns (CategoryUpdateRequest) {}
+  rpc CategoryUpdate(CategoryUpdateRequest) returns (CategoryUpdateResponse) {}
+  rpc CategoryDeleteRestore(CategoryDeleteRestoreRequest) returns (CategoryDeleteRestoreResponse) {}
+
+  rpc ServicesList(ServicesListRequest) returns (ServicesListResponse) {}
+  rpc ServiceCreate(ServiceCreateRequest) returns (ServiceCreateResponse) {}
+  rpc ServiceFindForUpdate(ServiceFindForUpdateRequest) returns (ServiceUpdateRequest) {}
+  rpc ServiceUpdate(ServiceUpdateRequest) returns (ServiceUpdateResponse) {}
+  rpc ServiceDeleteRestore(ServiceDeleteRestoreRequest) returns (ServiceDeleteRestoreResponse) {}
+
+  rpc ProgramsList(ProgramsListRequest) returns (ProgramsListResponse) {}
+  rpc ProgramCreate(ProgramCreateRequest) returns (ProgramCreateResponse) {}
+  rpc ProgramFindForUpdate(ProgramFindForUpdateRequest) returns (ProgramUpdateRequest) {}
+  rpc ProgramUpdate(ProgramUpdateRequest) returns (ProgramUpdateResponse) {}
+  rpc ProgramDeleteRestore(ProgramDeleteRestoreRequest) returns (ProgramDeleteRestoreResponse) {}
+
+  rpc ProjectsList(ProjectsListRequest) returns (ProjectsListResponse) {}
+  rpc ProjectCreate(ProjectCreateRequest) returns (ProjectCreateResponse) {}
+  rpc ProjectFindForUpdate(ProjectFindForUpdateRequest) returns (ProjectUpdateRequest) {}
+  rpc ProjectUpdate(ProjectUpdateRequest) returns (ProjectUpdateResponse) {}
+  rpc ProjectDeleteRestore(ProjectDeleteRestoreRequest) returns (ProjectDeleteRestoreResponse) {}
+
+  rpc TestemonialsList(TestemonialsListRequest) returns (TestemonialsListResponse) {}
+  rpc TestemonialCreate(TestemonialCreateRequest) returns (TestemonialCreateResponse) {}
+  rpc TestemonialFindForUpdate(TestemonialFindForUpdateRequest) returns (TestemonialUpdateRequest) {}
+  rpc TestemonialUpdate(TestemonialUpdateRequest) returns (TestemonialUpdateResponse) {}
+  rpc TestemonialDeleteRestore(TestemonialDeleteRestoreRequest) returns (TestemonialDeleteRestoreResponse) {}
+
+  rpc TeamMembersList(TeamMembersListRequest) returns (TeamMembersListResponse) {}
+  rpc TeamMemberCreate(TeamMemberCreateRequest) returns (TeamMemberCreateResponse) {}
+  rpc TeamMemberFindForUpdate(TeamMemberFindForUpdateRequest) returns (TeamMemberUpdateRequest) {}
+  rpc TeamMemberUpdate(TeamMemberUpdateRequest) returns (TeamMemberUpdateResponse) {}
+  rpc TeamMemberDeleteRestore(TeamMemberDeleteRestoreRequest) returns (TeamMemberDeleteRestoreResponse) {}
+  rpc LoadInitialData(ClientInitializeRequest) returns (ClientInitializeResponse) {}
+}

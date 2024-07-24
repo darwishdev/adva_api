@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package bznspro.v1;
+
+import "buf/validate/validate.proto";
+import "bznspro/v1/client_definitions.proto";
+
+message Project {
+  int32 project_id = 1;
+  string project_name = 2;
+  string project_image = 3;
+  int32 category_id = 4;
+  string created_at = 5;
+  string updated_at = 6;
+  string deleted_at = 7;
+}
+
+message ProjectsListRequest {}
+message ProjectsListRow {
+  int32 project_id = 1;
+  string project_name = 2;
+  string project_image = 3;
+  int32 category_id = 5;
+  string category_name = 6;
+  string created_at = 7;
+  string updated_at = 8;
+  string deleted_at = 9;
+}
+message ProjectsListResponse {
+  ListDataOptions options = 1;
+  repeated ProjectsListRow records = 2;
+  repeated ProjectsListRow deleted_records = 3;
+}
+message ProjectDeleteRestoreRequest {
+  repeated int32 project_ids = 1 [(buf.validate.field).cel = {
+    message: "project_id_min_1",
+    expression: "this > 0"
+  }];
+}
+message ProjectDeleteRestoreResponse {}
+
+message ProjectCreateRequest {
+  string project_name = 1 [(buf.validate.field).cel = {
+    message: "project_name_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string project_image = 2 [(buf.validate.field).cel = {
+    message: "project_image_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  int32 category_id = 3 [(buf.validate.field).cel = {
+    message: "category_id_required",
+    expression: "this > 0"
+  }];
+}
+message ProjectCreateResponse {
+  Project project = 1;
+}
+
+message ProjectFindForUpdateRequest {
+  int32 project_id = 1;
+}
+
+message ProjectUpdateRequest {
+  int32 project_id = 1 [(buf.validate.field).cel = {
+    message: "project_id_min_1",
+    expression: "this > 0"
+  }];
+  string project_name = 2 [(buf.validate.field).cel = {
+    message: "project_name_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string project_image = 3 [(buf.validate.field).cel = {
+    message: "project_image_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  int32 category_id = 4 [(buf.validate.field).cel = {
+    message: "category_id_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+}
+message ProjectUpdateResponse {
+  Project project = 1;
+}

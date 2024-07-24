@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+package bznspro.v1;
+
+import "buf/validate/validate.proto";
+import "bznspro/v1/client_definitions.proto";
+
+message Program {
+  int32 program_id = 1;
+  string program_name = 2;
+
+  string program_image = 3;
+  string breif = 4;
+  string created_at = 5;
+  string updated_at = 6;
+  string deleted_at = 7;
+}
+
+message ProgramsListRequest {}
+message ProgramsListRow {
+  int32 program_id = 1;
+  string program_name = 2;
+  string program_image = 3;
+  string breif = 5;
+  string created_at = 6;
+  string updated_at = 7;
+  string deleted_at = 8;
+}
+message ProgramsListResponse {
+  ListDataOptions options = 1;
+  repeated ProgramsListRow records = 2;
+  repeated ProgramsListRow deleted_records = 3;
+}
+message ProgramDeleteRestoreRequest {
+  repeated int32 program_ids = 1 [(buf.validate.field).cel = {
+    message: "program_id_min_1",
+    expression: "this > 0"
+  }];
+}
+message ProgramDeleteRestoreResponse {}
+
+message ProgramCreateRequest {
+  string program_name = 1 [(buf.validate.field).cel = {
+    message: "program_name_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string program_image = 2 [(buf.validate.field).cel = {
+    message: "program_image_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string breif = 3 [(buf.validate.field).cel = {
+    message: "breif_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+}
+message ProgramCreateResponse {
+  Program program = 1;
+}
+
+message ProgramFindForUpdateRequest {
+  int32 program_id = 1;
+}
+
+message ProgramUpdateRequest {
+  int32 program_id = 1 [(buf.validate.field).cel = {
+    message: "program_id_min_1",
+    expression: "this > 0"
+  }];
+  string program_name = 2 [(buf.validate.field).cel = {
+    message: "program_name_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string program_image = 3 [(buf.validate.field).cel = {
+    message: "program_image_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string breif = 4 [(buf.validate.field).cel = {
+    message: "breif_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+}
+message ProgramUpdateResponse {
+  Program program = 1;
+}

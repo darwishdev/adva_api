@@ -1,0 +1,103 @@
+syntax = "proto3";
+
+package bznspro.v1;
+
+import "buf/validate/validate.proto";
+import "bznspro/v1/client_definitions.proto";
+
+// Request messages
+
+message Link {
+  string name = 1;
+  string url = 2;
+}
+
+message BlogCreateRequest {
+  string blog_name = 1 [(buf.validate.field).cel = {
+    message: "blog_name_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string blog_image = 2;
+  string breif = 3;
+  string content = 4;
+  int32 category_id = 5;
+  int32 user_id = 6;
+  int32 views = 7;
+  string date_time = 8 [(buf.validate.field).cel = {
+    message: "date_time_required",
+    expression: "uint(this.size()) > 0"
+  }];
+  repeated Link links = 9;
+  repeated string tags = 10;
+}
+
+message BlogUpdateRequest {
+  int32 blog_id = 1;
+  string blog_name = 2 [(buf.validate.field).cel = {
+    message: "blog_name_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string blog_image = 3;
+  string breif = 4;
+  string content = 5;
+  int32 category_id = 6;
+  int32 user_id = 7;
+  int32 views = 8;
+  string date_time = 9 [(buf.validate.field).cel = {
+    message: "date_time_required",
+    expression: "uint(this.size()) > 0"
+  }];
+  repeated Link links = 10;
+  repeated string tags = 11;
+}
+
+message BlogDeleteRestoreRequest {
+  repeated int32 blog_ids = 1;
+}
+
+message BlogFindRequest {
+  int32 blog_id = 1;
+}
+
+message BlogsListRequest {}
+
+message BlogsInputListRequest {}
+
+// Response messages
+
+message BlogsListRow {
+  int32 blog_id = 1;
+  string blog_name = 2;
+  string blog_image = 3;
+  string breif = 4;
+  string content = 5;
+  int32 category_id = 6;
+  string category_name = 11;
+  int32 user_id = 7;
+  int32 views = 8;
+  string date_time = 9;
+  repeated Link links = 10;
+  repeated string tags = 12;
+  string created_at = 13;
+  string confirmed_at = 14;
+  string updated_at = 15;
+  string deleted_at = 16;
+}
+
+message BlogsListResponse {
+  ListDataOptions options = 1;
+  repeated BlogsListRow records = 2;
+  repeated BlogsListRow deleted_records = 3;
+}
+
+message BlogsInputListResponse {
+  repeated SelectInputOption options = 1;
+}
+message BlogCreateResponse {}
+message BlogUpdateResponse {}
+
+message BlogDeleteRestoreResponse {}
+
+message BlogFindForUpdateRequest {
+  int32 blog_id = 1;
+}

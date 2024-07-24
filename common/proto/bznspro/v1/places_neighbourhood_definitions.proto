@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+package bznspro.v1;
+
+import "buf/validate/validate.proto";
+import "bznspro/v1/client_definitions.proto";
+
+message Neighbourhood {
+  int32 neighbourhood_id = 1;
+  string neighbourhood_name = 2;
+  string neighbourhood_code = 3;
+  int32 district_id = 4;
+  string created_at = 5;
+  string deleted_at = 6;
+}
+
+message NeighbourhoodsListRequest {}
+message NeighbourhoodsListRow {
+  int32 neighbourhood_id = 1;
+  string neighbourhood_name = 2;
+  string neighbourhood_code = 3;
+  int32 district_id = 4;
+  string district_name = 5;
+  int32 city_id = 6;
+  string city_name = 7;
+  string city_code = 8;
+  string created_at = 9;
+  int32 neighbourhoods_count = 10;
+  string deleted_at = 11;
+}
+message NeighbourhoodsListResponse {
+  ListDataOptions options = 1;
+  repeated NeighbourhoodsListRow records = 2;
+  repeated NeighbourhoodsListRow deleted_records = 3;
+}
+message NeighbourhoodDeleteRestoreRequest {
+  repeated int32 neighbourhood_ids = 1 [(buf.validate.field).cel = {
+    message: "district_id_min_1",
+    expression: "this > 0"
+  }];
+}
+message NeighbourhoodDeleteRestoreResponse {}
+
+message NeighbourhoodCreateRequest {
+  string neighbourhood_name = 1 [(buf.validate.field).cel = {
+    message: "neighbourhood_name_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string neighbourhood_code = 2 [(buf.validate.field).cel = {
+    message: "neighbourhood_code_min_1_max_200",
+    expression: "uint(this.size()) > 1 && uint(this.size()) < 200"
+  }];
+  int32 district_id = 3 [(buf.validate.field).cel = {
+    message: "district_id_min_1",
+    expression: "this > 0"
+  }];
+}
+message NeighbourhoodCreateResponse {
+  Neighbourhood neighbourhood = 1;
+}
+
+message NeighbourhoodFindForUpdateRequest {
+  int32 neighbourhood_id = 1;
+}
+
+message NeighbourhoodUpdateRequest {
+  int32 neighbourhood_id = 1 [(buf.validate.field).cel = {
+    message: "neighbourhood_id_min_1",
+    expression: "this > 0"
+  }];
+  string neighbourhood_name = 2 [(buf.validate.field).cel = {
+    message: "neighbourhood_name_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string neighbourhood_code = 3 [(buf.validate.field).cel = {
+    message: "neighbourhood_code_min_1_max_200",
+    expression: "uint(this.size()) > 1 && uint(this.size()) < 200"
+  }];
+  int32 district_id = 4 [(buf.validate.field).cel = {
+    message: "district_id_min_1",
+    expression: "this > 0"
+  }];
+}
+message NeighbourhoodUpdateResponse {
+  Neighbourhood neighbourhood = 1;
+}
+
+message NeighbourhoodsInputListRequest {
+  int32 district_id = 1 [(buf.validate.field).cel = {
+    message: "district_id_min_1",
+    expression: "this > 0"
+  }];
+}
+message NeighbourhoodsInputListResponse {
+  repeated SelectInputOption options = 1;
+}

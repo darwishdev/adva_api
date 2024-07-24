@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package bznspro.v1;
+
+import "buf/validate/validate.proto";
+import "bznspro/v1/client_definitions.proto";
+
+message City {
+  int32 city_id = 1;
+  string city_name = 2;
+  string city_code = 3;
+  string created_at = 4;
+  string deleted_at = 5;
+}
+
+message CitiesListRequest {}
+message CitiesListRow {
+  int32 city_id = 1;
+  string city_name = 2;
+  string city_code = 3;
+  string created_at = 4;
+  int32 districts_count = 5;
+  string deleted_at = 6;
+}
+message CitiesListResponse {
+  ListDataOptions options = 1;
+  repeated CitiesListRow records = 2;
+  repeated CitiesListRow deleted_records = 3;
+}
+message CityDeleteRestoreRequest {
+  repeated int32 city_ids = 1;
+}
+message CityDeleteRestoreResponse {}
+
+message CityCreateRequest {
+  string city_name = 1 [(buf.validate.field).cel = {
+    message: "city_name_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string city_code = 2 [(buf.validate.field).cel = {
+    message: "city_code_min_1_max_200",
+    expression: "uint(this.size()) > 1 && uint(this.size()) < 200"
+  }];
+}
+message CityCreateResponse {
+  City city = 1;
+}
+
+message CityFindForUpdateRequest {
+  int32 city_id = 1 [(buf.validate.field).cel = {
+    message: "city_id_min_1",
+    expression: "this.size() > 0"
+  }];
+}
+
+message CityUpdateRequest {
+  int32 city_id = 1 [(buf.validate.field).cel = {
+    message: "city_id_min_1",
+    expression: "this.size() > 0"
+  }];
+  string city_name = 2 [(buf.validate.field).cel = {
+    message: "city_name_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string city_code = 3 [(buf.validate.field).cel = {
+    message: "city_code_min_1_max_200",
+    expression: "uint(this.size()) > 1 && uint(this.size()) < 200"
+  }];
+}
+message CityUpdateResponse {
+  City city = 1;
+}
+
+message CitiesInputListRequest {}
+message CitiesInputListResponse {
+  repeated SelectInputOption options = 1;
+}

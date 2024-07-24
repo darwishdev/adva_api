@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+package bznspro.v1;
+
+import "buf/validate/validate.proto";
+import "bznspro/v1/client_definitions.proto";
+
+message Service {
+  int32 service_id = 1;
+  string service_name = 2;
+  repeated string tags = 9;
+
+  string service_image = 3;
+  string breif = 4;
+  string created_at = 5;
+  string updated_at = 6;
+  string deleted_at = 7;
+}
+
+message ServicesListRequest {}
+message ServicesListRow {
+  int32 service_id = 1;
+  string service_name = 2;
+  repeated string tags = 9;
+  string service_image = 3;
+  string breif = 5;
+  string created_at = 6;
+  string updated_at = 7;
+  string deleted_at = 8;
+}
+message ServicesListResponse {
+  ListDataOptions options = 1;
+  repeated ServicesListRow records = 2;
+  repeated ServicesListRow deleted_records = 3;
+}
+message ServiceDeleteRestoreRequest {
+  repeated int32 service_ids = 1 [(buf.validate.field).cel = {
+    message: "service_id_min_1",
+    expression: "this > 0"
+  }];
+}
+message ServiceDeleteRestoreResponse {}
+
+message ServiceCreateRequest {
+  string service_name = 1 [(buf.validate.field).cel = {
+    message: "service_name_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string service_image = 2 [(buf.validate.field).cel = {
+    message: "service_image_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string breif = 3 [(buf.validate.field).cel = {
+    message: "breif_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  repeated string tags = 9;
+}
+message ServiceCreateResponse {
+  Service service = 1;
+}
+
+message ServiceFindForUpdateRequest {
+  int32 service_id = 1;
+}
+
+message ServiceUpdateRequest {
+  int32 service_id = 1 [(buf.validate.field).cel = {
+    message: "service_id_min_1",
+    expression: "this > 0"
+  }];
+  string service_name = 2 [(buf.validate.field).cel = {
+    message: "service_name_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string service_image = 3 [(buf.validate.field).cel = {
+    message: "service_image_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string breif = 4 [(buf.validate.field).cel = {
+    message: "breif_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  repeated string tags = 9;
+}
+message ServiceUpdateResponse {
+  Service service = 1;
+}

@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bzns_pro
+    volumes:
+      - ./config:/app/config
+    image: bzns_pro
+    ports:
+      - 9091:9091
+    entrypoint:
+      [
+        "/app/wait-for.sh",
+        "postgres:5432",
+        "--",
+        "/app/start.sh"
+      ]
+    command: [ "/app/main" ]
+
+
+networks:
+  default:
+    name: postgres_network
+    external: true

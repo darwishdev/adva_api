@@ -1,0 +1,95 @@
+syntax = "proto3";
+
+package bznspro.v1;
+
+import "buf/validate/validate.proto";
+import "bznspro/v1/client_definitions.proto";
+
+message Testemonial {
+  int32 testemonial_id = 1;
+  string testemonial_name = 2;
+  string testemonial_title = 3;
+  string testemonial_image = 4;
+  string breif = 5;
+  string created_at = 6;
+  string updated_at = 7;
+  string deleted_at = 8;
+}
+
+message TestemonialsListRequest {}
+message TestemonialsListRow {
+  int32 testemonial_id = 1;
+  string testemonial_name = 2;
+  string testemonial_title = 4;
+  string testemonial_image = 5;
+  string breif = 6;
+  string created_at = 7;
+  string updated_at = 8;
+  string deleted_at = 9;
+}
+message TestemonialsListResponse {
+  ListDataOptions options = 1;
+  repeated TestemonialsListRow records = 2;
+  repeated TestemonialsListRow deleted_records = 3;
+}
+message TestemonialDeleteRestoreRequest {
+  repeated int32 testemonial_ids = 1 [(buf.validate.field).cel = {
+    message: "testemonial_id_min_1",
+    expression: "this > 0"
+  }];
+}
+message TestemonialDeleteRestoreResponse {}
+
+message TestemonialCreateRequest {
+  string testemonial_name = 1 [(buf.validate.field).cel = {
+    message: "testemonial_name_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string testemonial_image = 2 [(buf.validate.field).cel = {
+    message: "testemonial_image_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+
+  string testemonial_title = 3 [(buf.validate.field).cel = {
+    message: "testemonial_title_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string breif = 4 [(buf.validate.field).cel = {
+    message: "breif_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+}
+message TestemonialCreateResponse {
+  Testemonial testemonial = 1;
+}
+
+message TestemonialFindForUpdateRequest {
+  int32 testemonial_id = 1;
+}
+
+message TestemonialUpdateRequest {
+  int32 testemonial_id = 1 [(buf.validate.field).cel = {
+    message: "testemonial_id_min_1",
+    expression: "this > 0"
+  }];
+  string testemonial_name = 2 [(buf.validate.field).cel = {
+    message: "testemonial_name_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+
+  string testemonial_title = 3 [(buf.validate.field).cel = {
+    message: "testemonial_title_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string testemonial_image = 4 [(buf.validate.field).cel = {
+    message: "testemonial_image_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string breif = 5 [(buf.validate.field).cel = {
+    message: "breif_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+}
+message TestemonialUpdateResponse {
+  Testemonial testemonial = 1;
+}

@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package bznspro.v1;
+
+import "bznspro/v1/blog_blog_definitions.proto";
+import "bznspro/v1/events_event_definitions.proto";
+import "bznspro/v1/public_categories_definitions.proto";
+import "bznspro/v1/public_programs_definitions.proto";
+import "bznspro/v1/public_projects_definitions.proto";
+import "bznspro/v1/public_services_definitions.proto";
+import "bznspro/v1/public_setting_definitions.proto";
+import "bznspro/v1/public_team_members_definitions.proto";
+import "bznspro/v1/public_testemonials_definitions.proto";
+
+message ClientInitializeRequest {}
+message ClientInitializeResponse {
+  repeated ProjectsListRow projects = 1;
+  repeated ServicesListRow services = 2;
+  repeated ProgramsListRow programs = 3;
+  repeated TestemonialsListRow testemonials = 4;
+  repeated TeamMembersListRow team_members = 5;
+  repeated SettingsFindForUpdateRow settings = 6;
+  repeated EventsListRow events = 7;
+  repeated BlogsListRow blogs = 8;
+}

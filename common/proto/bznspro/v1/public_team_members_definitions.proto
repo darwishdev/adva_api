@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package bznspro.v1;
+
+import "buf/validate/validate.proto";
+import "bznspro/v1/client_definitions.proto";
+
+message TeamMember {
+  int32 team_member_id = 1;
+  string team_member_name = 2;
+  string job_title = 3;
+  string team_member_image = 4;
+
+  string created_at = 6;
+  string updated_at = 7;
+  string deleted_at = 8;
+}
+
+message TeamMembersListRequest {}
+message TeamMembersListRow {
+  int32 team_member_id = 1;
+  string team_member_name = 2;
+  string job_title = 4;
+  string team_member_image = 5;
+  string created_at = 7;
+  string updated_at = 8;
+  string deleted_at = 9;
+}
+message TeamMembersListResponse {
+  ListDataOptions options = 1;
+  repeated TeamMembersListRow records = 2;
+  repeated TeamMembersListRow deleted_records = 3;
+}
+message TeamMemberDeleteRestoreRequest {
+  repeated int32 team_member_ids = 1 [(buf.validate.field).cel = {
+    message: "team_member_id_min_1",
+    expression: "this > 0"
+  }];
+}
+message TeamMemberDeleteRestoreResponse {}
+
+message TeamMemberCreateRequest {
+  string team_member_name = 1 [(buf.validate.field).cel = {
+    message: "team_member_name_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string team_member_image = 2 [(buf.validate.field).cel = {
+    message: "team_member_image_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+
+  string job_title = 3 [(buf.validate.field).cel = {
+    message: "job_title_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+}
+message TeamMemberCreateResponse {
+  TeamMember team_member = 1;
+}
+
+message TeamMemberFindForUpdateRequest {
+  int32 team_member_id = 1;
+}
+
+message TeamMemberUpdateRequest {
+  int32 team_member_id = 1 [(buf.validate.field).cel = {
+    message: "team_member_id_min_1",
+    expression: "this > 0"
+  }];
+  string team_member_name = 2 [(buf.validate.field).cel = {
+    message: "team_member_name_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+
+  string job_title = 3 [(buf.validate.field).cel = {
+    message: "job_title_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+  string team_member_image = 4 [(buf.validate.field).cel = {
+    message: "team_member_image_min_2_max_200",
+    expression: "uint(this.size()) > 2 && uint(this.size()) < 200"
+  }];
+}
+message TeamMemberUpdateResponse {
+  TeamMember team_member = 1;
+}
